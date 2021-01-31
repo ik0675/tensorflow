@@ -29,8 +29,16 @@
         model.compile(compileParam);
 
         // 3. Train the model using data with a customed epoch (repetition in learning). 
-        var fitParam = { epochs: 2000} // The more epochs, the better the model will learn => confident in model
-        // var fitParam = { epochs: 2000, callbacks:{onEpochEnd:function(epoch, logs){console.log('epoch', epoch, logs);}}} // loss adding example
+        // var fitParam = { epochs: 2000} // The more epochs, the better the model will learn => confident in model
+        var fitParam = {
+            epochs: 2000, 
+            callbacks: {
+                onEpochEnd:
+                    function(epoch, logs){
+                        console.log('epoch', epoch, logs, 'RMSE=>', Math.sqrt(logs.loss));
+                    }
+            }
+        } // loss adding example
         model.fit(cause, res, fitParam).then(function (result) {
             
             // 4. Use a trained model.
